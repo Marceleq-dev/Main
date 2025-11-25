@@ -433,8 +433,13 @@ document.getElementById('upg-sps3').addEventListener('click', ()=> buyUpgrade('s
 document.getElementById('shopBtn').addEventListener('click', openShop);
 shopCloseBtn.addEventListener('click', closeShop);
 
-/* Passive Income */
-setInterval(() => { if (sps>0){ shrimp = Math.floor(shrimp + sps/10); updateUI(); } },100);
+/* Passive Income — FIX APPLIED HERE */
+setInterval(() => {
+  if (sps > 0) {
+    shrimp += sps / 10;   // <-- FIXED: keeps fractional income so SPS works properly
+    updateUI();
+  }
+}, 100);
 
 /* =========================
    Saving & Loading
