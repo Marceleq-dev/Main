@@ -324,6 +324,11 @@ let shrimpPrice = 0.25;
 let marketMultiplier = 1.0; 
 let marketTrend = 0;        
 
+// --- Market Multiplier Constants ---
+const MIN_MARKET_MULTIPLIER = 0.39; // Updated from 0.3
+const MAX_MARKET_MULTIPLIER = 1.87; // Updated from 3.0
+// -----------------------------------
+
 const upgrades = {
   net:   { base: 20,    count: 0, boost: 1,  type: "spc", visible: true },
   sps1:  { base: 100,   count: 0, boost: 1,  type: "sps", visible: false },
@@ -462,8 +467,11 @@ function tickMarket(){
 
   const drift = (Math.random() - 0.5) * 0.06; 
   const jump = (Math.random() < 0.005) ? ((Math.random() - 0.5) * 0.6) : 0; 
-  marketMultiplier = Math.max(0.3, Math.min(3.0, marketMultiplier + drift * marketTrend + jump));
-
+  
+  // *** THE CHANGE IS HERE: MIN_MARKET_MULTIPLIER and MAX_MARKET_MULTIPLIER are used ***
+  marketMultiplier = Math.max(MIN_MARKET_MULTIPLIER, Math.min(MAX_MARKET_MULTIPLIER, marketMultiplier + drift * marketTrend + jump));
+  // ***********************************************************************************
+  
   shrimpPrice = Math.max(0.01, 0.5 * marketMultiplier + (Math.random() - 0.5) * 0.5);
 
   if (priceDisplay) priceDisplay.textContent = '$' + Number(shrimpPrice).toFixed(2);
